@@ -2,69 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Global resets ─────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+/* ── Global ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: 'EB Garamond', Georgia, serif;
   -webkit-font-smoothing: antialiased;
+  background: #f3f4f6;
 }
 
-/* ── Screen-only / Print-only helpers ─────────── */
-/* screen-only: visible by default, hidden in print */
-/* print-only:  hidden by default, shown in print  */
-.print-only {
-  display: none;
-}
+/* ── Print-only / Screen-only ───────────────────── */
+.print-only  { display: none; }
+.screen-only { display: block; }
 
-/* ── Upload hover glow on card front ─────────── */
+/* Header needs flex preserved */
+header.screen-only { display: flex; }
+
+/* ── Card hover effect ──────────────────────────── */
+.spell-card-front {
+  transition: box-shadow 0.2s, transform 0.15s;
+}
 .spell-card-front:hover {
-  filter: drop-shadow(0 0 8px rgba(200, 160, 80, 0.25));
+  box-shadow: 0 6px 24px rgba(90,56,20,0.22) !important;
+  transform: translateY(-2px);
 }
 
-/* ── Smooth transitions ──────────────────────── */
-button {
-  cursor: pointer;
-}
+button { cursor: pointer; }
 
-/* ════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
    PRINT STYLES
-   Cards print at exact poker card size: 2.5" × 3.5"
-   Layout: 3 columns × 2 rows = 6 cards per page
-════════════════════════════════════════════════ */
+   Card real size: 70mm × 120mm = 2.756in × 4.724in
+   Screen card: 280×480px
+   Zoom to print size: 264.6/280 ≈ 0.945
+════════════════════════════════════════════════════ */
 @media print {
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  body {
+  body { margin: 0; padding: 0; background: white; }
+
+  .screen-only { display: none !important; }
+  .print-only  { display: block !important; }
+
+  /* Page settings */
+  @page {
+    size: letter portrait;
     margin: 0;
-    padding: 0;
-    background: white;
   }
 
-  .screen-only {
-    display: none !important;
-  }
-
-  .print-only {
-    display: block !important;
-  }
-
-
-  /* Each print page is a grid of 3×2 cards */
-  .print-page {
+  /* ── 4-per-page: 2 columns × 2 rows ── */
+  .print-layout-4 .print-page {
     width: 8.5in;
     height: 11in;
     display: grid;
-    grid-template-columns: repeat(3, 2.5in);
-    grid-template-rows: repeat(2, 3.5in);
-    /* Center the 7.5"×7" grid on the 8.5"×11" page */
-    padding: 2in 0.5in;
+    grid-template-columns: repeat(2, 2.756in);
+    grid-template-rows: repeat(2, 4.724in);
+    /* Center: (8.5 - 2×2.756)/2 = 1.494in left/right, (11 - 2×4.724)/2 = 0.776in top/bottom */
+    padding: 0.776in 1.494in;
+    gap: 0;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  /* ── 6-per-page: 3 columns × 2 rows ── */
+  .print-layout-6 .print-page {
+    width: 8.5in;
+    height: 11in;
+    display: grid;
+    grid-template-columns: repeat(3, 2.756in);
+    grid-template-rows: repeat(2, 4.724in);
+    /* Center: (8.5 - 3×2.756)/2 = 0.116in left/right, (11 - 2×4.724)/2 = 0.776in top/bottom */
+    padding: 0.776in 0.116in;
     gap: 0;
     page-break-after: always;
     break-after: page;
@@ -75,36 +86,30 @@ button {
     break-after: auto;
   }
 
-  /* Each card cell is exactly 2.5" × 3.5" */
+  /* Each card cell */
   .print-card {
-    width: 2.5in;
-    height: 3.5in;
+    width: 2.756in;
+    height: 4.724in;
     overflow: hidden;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
-  /* Scale card components to fit exactly 2.5"×3.5"
-     Cards are 250×350px → zoom 96% → 240×336px = 2.5"×3.5" at 96dpi */
+  /* Scale cards from 280×480px to 264.6×453.5px (70mm×120mm) */
   .print-card .spell-card-front,
   .print-card .spell-card-back {
-    zoom: 0.96;
+    zoom: 0.945;
+    box-shadow: none !important;
+    transform: none !important;
   }
 
-  /* Hide any upload overlays in print */
-  .print-card button {
-    display: none !important;
-  }
+  /* No hover effects in print */
+  .print-card button { display: none !important; }
 
-  /* Ensure card backgrounds print correctly */
+  /* Force light backgrounds to print */
   .print-card * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-  }
-
-  @page {
-    size: letter;
-    margin: 0;
   }
 }
