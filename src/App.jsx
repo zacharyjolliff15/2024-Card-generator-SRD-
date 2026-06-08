@@ -160,6 +160,27 @@ export default function App() {
   const pageSpells = filteredSpells.slice(page * perPage, page * perPage + perPage)
   const cols       = perPage === 4 ? 2 : 3
 
+  useEffect(() => {
+    function handleKeyDown(e) {
+      const el = e.target
+      if (
+        el instanceof HTMLElement &&
+        (['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName) || el.isContentEditable)
+      ) return
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        setPage(p => Math.max(0, p - 1))
+      } else if (e.key === 'ArrowRight' && totalPages > 0) {
+        e.preventDefault()
+        setPage(p => Math.min(totalPages - 1, p + 1))
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [totalPages])
+
   // Determine classTheme for a spell
   function getSpellClassTheme(spell) {
     if (sortBy !== 'class') return null

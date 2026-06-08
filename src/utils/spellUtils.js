@@ -123,16 +123,16 @@ export function getSchoolTheme(school) {
 export const CLASS_THEMES = {
   Artificer: { accent: '#1a4f8c', bg: '#cfe0f4', light: '#eef4fb' },
   Bard:      { accent: '#7a4a10', bg: '#f5ddb0', light: '#fdf6e8' },
-  Cleric:    { accent: '#5a2a7a', bg: '#e0d4f0', light: '#f5f0fb' },
-  Druid:     { accent: '#1a5a1a', bg: '#c6e3c6', light: '#edf8ed' },
+  Cleric:    { accent: '#64748b', bg: '#e2e8f0', light: '#f8fafc' },
+  Druid:     { accent: '#15803d', bg: '#bbf7d0', light: '#ecfdf5' },
   Fighter:   { accent: '#5c3a18', bg: '#ddd0c0', light: '#f5f0e8' },
-  Monk:      { accent: '#6e4e28', bg: '#e8d8c0', light: '#faf4ec' },
-  Paladin:   { accent: '#7a6000', bg: '#efe89e', light: '#fdfae8' },
-  Ranger:    { accent: '#1a5c2e', bg: '#beddbe', light: '#e8f5e8' },
+  Monk:      { accent: '#ea580c', bg: '#fed7aa', light: '#fff7ed' },
+  Paladin:   { accent: '#ca8a04', bg: '#fde68a', light: '#fefce8' },
+  Ranger:    { accent: '#78350f', bg: '#d6b896', light: '#faf5f0' },
   Rogue:     { accent: '#28285a', bg: '#c8c8d8', light: '#eeeef8' },
-  Sorcerer:  { accent: '#8b0000', bg: '#f0c8c8', light: '#fce8e8' },
-  Warlock:   { accent: '#4a006e', bg: '#d0b8e8', light: '#f0e8fc' },
-  Wizard:    { accent: '#002288', bg: '#b8cce8', light: '#e8f0fc' },
+  Sorcerer:  { accent: '#dc2626', bg: '#fecaca', light: '#fef2f2' },
+  Warlock:   { accent: '#7c3aed', bg: '#ddd6fe', light: '#f5f3ff' },
+  Wizard:    { accent: '#2563eb', bg: '#bfdbfe', light: '#eff6ff' },
 }
 
 export function getClassTheme(className) {
