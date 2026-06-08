@@ -1,24 +1,24 @@
 import { formatLevel, formatDuration, formatComponents } from '../utils/spellUtils'
 
 /* ── SVG Icons ───────────────────────────────────── */
-const ClockIcon = ({ size = 18 }) => (
+const ClockIcon = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
   </svg>
 )
-const TargetIcon = ({ size = 18 }) => (
+const TargetIcon = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />
   </svg>
 )
-const HourglassIcon = ({ size = 18 }) => (
+const HourglassIcon = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M5 22h14M5 2h14" />
     <path d="M17 2v4a6 6 0 0 1-5 5.92V14a6 6 0 0 1 5 5.92V22" />
     <path d="M7 2v4a6 6 0 0 0 5 5.92V14a6 6 0 0 0-5 5.92V22" />
   </svg>
 )
-const FlaskIcon = ({ size = 18 }) => (
+const FlaskIcon = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M9 3h6v7l4 9H5l4-9z" /><line x1="9" y1="10" x2="15" y2="10" />
   </svg>
@@ -26,17 +26,18 @@ const FlaskIcon = ({ size = 18 }) => (
 
 /* ── Layout ──────────────────────────────────────────
    Card:        280 × 480 px  (prints at 70 mm × 120 mm)
-   White frame: 10 px thick border around image
-   Info bar:    72 px at bottom, no separator
-   Image top:   42 px from card top
-   Name banner: vertically centered on image-top edge
+   White frame: 10 px thick white border around image
+   Info bar:    56 px at bottom (compact)
+   Image top:   40 px from card top
+   Image side:  0  — frame fills full card width, overflow:hidden
+                clips the card's rounded corners naturally
 ──────────────────────────────────────────────────── */
-const W       = 280
-const H       = 480
-const INFO_H  = 72
-const IMG_TOP = 42
-const IMG_PAD = 10   // white border thickness around image
-const IMG_SIDE = 10  // image frame inset from card sides
+const W        = 280
+const H        = 480
+const INFO_H   = 56   // compact info bar
+const IMG_TOP  = 26   // name banner top = IMG_TOP - 16 = 10px = same as IMG_PAD
+const IMG_PAD  = 10   // white border thickness around image
+const IMG_SIDE = 0    // full-width — no side gap
 
 export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
   const levelLabel = formatLevel(spell.level, spell.school)
@@ -177,34 +178,31 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
         </span>
       </div>
 
-      {/* ── Info bar ─────────────────────────────────────
-          No top border — very subtle warm tint separates it
-          from the card body without any visible line.
-      ─────────────────────────────────────────────── */}
+      {/* ── Info bar — compact, no border ── */}
       <div style={{
         position: 'absolute',
         left: 0, right: 0, bottom: 0,
         height: INFO_H,
-        background: '#f7f4ef',   /* barely-there warm tint — no line */
+        background: '#f7f4ef',
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
         alignItems: 'center',
-        padding: '8px 6px 9px',
+        padding: '4px 4px 5px',
         gap: 2,
         zIndex: 2,
       }}>
         {infoItems.map((item, i) => (
           <div key={i} style={{
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
           }}>
             <div style={{ color: '#5a3820', lineHeight: 0 }}>{item.icon}</div>
             <span style={{
               fontFamily: 'EB Garamond, serif',
-              fontSize: 10,
+              fontSize: 9,
               fontWeight: 700,
               color: '#1a0a00',
               textAlign: 'center',
-              lineHeight: 1.25,
+              lineHeight: 1.2,
               wordBreak: 'break-word',
             }}>
               {item.label}
