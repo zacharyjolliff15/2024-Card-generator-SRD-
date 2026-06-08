@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { formatLevel, formatDuration, formatComponents } from '../utils/spellUtils'
 
 /* ── SVG Icons ───────────────────────────────────── */
@@ -40,6 +41,12 @@ const IMG_PAD  = 10   // white border thickness around image
 const IMG_SIDE = 0    // full-width — no side gap
 
 export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
+  // Track whether the current src failed to load (e.g. missing static file)
+  const [srcFailed, setSrcFailed] = useState(false)
+  useEffect(() => { setSrcFailed(false) }, [imageUrl])
+
+  const showImage = Boolean(imageUrl) && !srcFailed
+
   const levelLabel = formatLevel(spell.level, spell.school)
   const duration   = formatDuration(spell.duration, spell.concentration)
   const components = formatComponents(spell.components)
@@ -97,10 +104,11 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
           background: imageUrl ? '#111' : '#f0ece4',
         }}>
 
-          {imageUrl ? (
+          {showImage ? (
             <img
               src={imageUrl}
               alt={spell.name}
+              onError={() => setSrcFailed(true)}
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           ) : (

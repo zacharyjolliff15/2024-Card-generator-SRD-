@@ -2,11 +2,16 @@ import { useState, useEffect, useRef } from 'react'
 import SpellCardFront from './components/SpellCardFront'
 import SpellCardBack from './components/SpellCardBack'
 
-const STORAGE_KEY = 'spell-card-images'
 const STORAGE_PER_PAGE_KEY = 'spell-card-per-page'
 
-function loadImages() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') } catch { return {} }
+/**
+ * Primary image source: public/art/{spell.index}.jpg
+ * Temporary upload overrides are stored in React state only (not persisted).
+ * SpellCardFront handles the onError gracefully when the file doesn't exist.
+ */
+function getImageSrc(spellIndex, tempOverrides) {
+  if (tempOverrides[spellIndex]) return tempOverrides[spellIndex]  // in-session upload
+  return `/art/${spellIndex}.jpg`                                  // static file
 }
 
 /* ── Icon helpers ──────────────────────────────────── */
@@ -48,7 +53,7 @@ function PageLabel({ number, label, count }) {
 }
 
 /* ── Card wrapper with upload controls ─────────────── */
-function FrontCardWrapper({ spell, imageUrl, onUpload, onClear }) {
+function FrontCardWrapper({ spell, imageUrl, hasTempOverride, onUpload, onClearTemp }) {
   return (
     <div className="relative group">
       <SpellCardFront
@@ -57,21 +62,21 @@ function FrontCardWrapper({ spell, imageUrl, onUpload, onClear }) {
         onImageClick={onUpload}
       />
       {/* Hover controls */}
-      <div className="absolute bottom-20 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="absolute bottom-16 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={onUpload}
           className="flex items-center gap-1.5 px-2 py-1 bg-amber-800/90 text-amber-100 text-xs rounded shadow-md whitespace-nowrap"
-          title="Upload artwork"
+          title={`Place file at: public/art/${spell.index}.jpg`}
         >
-          <UploadIcon /> Upload art
+          <UploadIcon /> Preview image
         </button>
-        {imageUrl && (
+        {hasTempOverride && (
           <button
-            onClick={onClear}
-            className="flex items-center gap-1.5 px-2 py-1 bg-red-800/90 text-red-100 text-xs rounded shadow-md"
-            title="Remove image"
+            onClick={onClearTemp}
+            className="flex items-center gap-1.5 px-2 py-1 bg-red-800/90 text-red-100 text-xs rounded shadow-md whitespace-nowrap"
+            title="Remove session preview"
           >
-            <TrashIcon /> Remove
+            <TrashIcon /> Clear preview
           </button>
         )}
       </div>
@@ -80,23 +85,22 @@ function FrontCardWrapper({ spell, imageUrl, onUpload, onClear }) {
 }
 
 export default function App() {
-  const [spells, setSpells] = useState([])
-  const [images, setImages] = useState({})
-  const [page, setPage]     = useState(0)
-  const [loading, setLoading] = useState(true)
-  const [perPage, setPerPage] = useState(() => {
+  const [spells, setSpells]       = useState([])
+  const [tempImages, setTempImages] = useState({})   // in-session upload overrides only
+  const [page, setPage]           = useState(0)
+  const [loading, setLoading]     = useState(true)
+  const [perPage, setPerPage]     = useState(() => {
     const saved = parseInt(localStorage.getItem(STORAGE_PER_PAGE_KEY))
     return [4, 6].includes(saved) ? saved : 4
   })
-  const fileInputRef   = useRef(null)
-  const uploadTarget   = useRef(null)
+  const fileInputRef = useRef(null)
+  const uploadTarget = useRef(null)
 
   useEffect(() => {
     fetch('/spells.json')
       .then(r => r.json())
       .then(data => { setSpells(data); setLoading(false) })
       .catch(() => setLoading(false))
-    setImages(loadImages())
   }, [])
 
   const totalPages  = Math.ceil(spells.length / perPage)
@@ -119,20 +123,16 @@ export default function App() {
     if (!file || uploadTarget.current == null) return
     const reader = new FileReader()
     reader.onload = (ev) => {
-      const updated = { ...images, [uploadTarget.current]: ev.target.result }
-      setImages(updated)
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)) } catch {}
+      // Store as a session-only override (not persisted — images belong in public/art/)
+      setTempImages(prev => ({ ...prev, [uploadTarget.current]: ev.target.result }))
       uploadTarget.current = null
     }
     reader.readAsDataURL(file)
     e.target.value = ''
   }
 
-  function clearImage(spellIndex) {
-    const updated = { ...images }
-    delete updated[spellIndex]
-    setImages(updated)
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)) } catch {}
+  function clearTempImage(spellIndex) {
+    setTempImages(prev => { const n = { ...prev }; delete n[spellIndex]; return n })
   }
 
   if (loading) {
@@ -236,7 +236,10 @@ export default function App() {
         <div className="ml-auto">
           <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2 text-sm text-amber-800 flex items-center gap-2">
             <span>💡</span>
-            <span><strong>Tip:</strong> Click (or hover) a front card to upload custom artwork. It saves automatically.</span>
+            <span>
+              <strong>Images:</strong> Place files as <code className="bg-amber-100 px-1 rounded">public/art/&#123;spell-index&#125;.jpg</code> — e.g. <code className="bg-amber-100 px-1 rounded">public/art/acid-splash.jpg</code>.
+              Hover a card to preview a different image for this session only.
+            </span>
           </div>
         </div>
       </div>
@@ -255,9 +258,10 @@ export default function App() {
               <FrontCardWrapper
                 key={spell.index}
                 spell={spell}
-                imageUrl={images[spell.index]}
+                imageUrl={getImageSrc(spell.index, tempImages)}
+                hasTempOverride={Boolean(tempImages[spell.index])}
                 onUpload={() => handleUpload(spell.index)}
-                onClear={() => clearImage(spell.index)}
+                onClearTemp={() => clearTempImage(spell.index)}
               />
             ))}
           </div>
@@ -288,7 +292,7 @@ export default function App() {
             <div key={spell.index} className="print-card">
               <SpellCardFront
                 spell={spell}
-                imageUrl={images[spell.index]}
+                imageUrl={getImageSrc(spell.index, tempImages)}
                 onImageClick={() => {}}
               />
             </div>
