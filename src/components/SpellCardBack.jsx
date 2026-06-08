@@ -27,7 +27,7 @@ const FlaskIcon = ({ size = 17 }) => (
 const W = 280
 const H = 480
 
-export default function SpellCardBack({ spell }) {
+export default function SpellCardBack({ spell, classTheme }) {
   const levelLabel  = formatLevel(spell.level, spell.school)
   const duration    = formatDuration(spell.duration, spell.concentration)
   const components  = formatComponents(spell.components)
@@ -41,6 +41,15 @@ export default function SpellCardBack({ spell }) {
     { icon: <FlaskIcon />,     label: components },
   ]
 
+  // Class theme — fall back to defaults
+  const cardBg      = classTheme ? classTheme.light  : '#fdf9f0'
+  const accentColor = classTheme ? classTheme.accent  : '#b07830'
+  const iconColor   = classTheme ? classTheme.accent  : '#7a5020'
+  const infoBg      = classTheme ? classTheme.bg      : 'rgba(180,140,60,0.06)'
+  const cardBorder  = classTheme
+    ? `2px solid ${classTheme.accent}55`
+    : '1px solid #e8e4de'
+
   return (
     <div
       className="spell-card-back"
@@ -49,17 +58,25 @@ export default function SpellCardBack({ spell }) {
         position: 'relative',
         flexShrink: 0,
         borderRadius: 14,
-        background: '#fdf9f0',
-        /* Same float shadow as the front — no border lines */
+        background: cardBg,
         boxShadow: '0 4px 18px rgba(0,0,0,0.16), 0 1px 4px rgba(0,0,0,0.08)',
-        border: '1px solid #e8e4de',
+        border: cardBorder,
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      {/* ── Header block (no bottom border) ── */}
-      <div style={{ padding: '14px 14px 8px', flexShrink: 0 }}>
+      {/* ── Top class color strip ── */}
+      {classTheme && (
+        <div style={{
+          height: 4,
+          background: classTheme.accent,
+          flexShrink: 0,
+        }} />
+      )}
+
+      {/* ── Header block ── */}
+      <div style={{ padding: classTheme ? '10px 14px 8px' : '14px 14px 8px', flexShrink: 0 }}>
         <div style={{
           fontFamily: 'Cinzel, serif',
           fontSize: 15, fontWeight: 700,
@@ -81,7 +98,7 @@ export default function SpellCardBack({ spell }) {
         <div style={{
           fontFamily: 'Cinzel, serif',
           fontSize: 10, fontWeight: 600,
-          color: '#b07830',
+          color: accentColor,
           marginTop: 2,
           letterSpacing: '0.03em',
         }}>
@@ -89,15 +106,14 @@ export default function SpellCardBack({ spell }) {
         </div>
       </div>
 
-      {/* ── Info row (no borders above/below) ── */}
+      {/* ── Info row ── */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
         padding: '4px 10px 10px',
         gap: 2,
         flexShrink: 0,
-        /* Very faint warm tint to group the icons — no border */
-        background: 'rgba(180,140,60,0.06)',
+        background: infoBg,
         margin: '0 10px',
         borderRadius: 8,
       }}>
@@ -106,7 +122,7 @@ export default function SpellCardBack({ spell }) {
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             gap: 3, padding: '6px 0',
           }}>
-            <div style={{ color: '#7a5020', lineHeight: 0 }}>{item.icon}</div>
+            <div style={{ color: iconColor, lineHeight: 0 }}>{item.icon}</div>
             <span style={{
               fontFamily: 'EB Garamond, serif',
               fontSize: 10, fontWeight: 700,
@@ -119,7 +135,7 @@ export default function SpellCardBack({ spell }) {
         ))}
       </div>
 
-      {/* ── Description (no borders, just breathing room) ── */}
+      {/* ── Description ── */}
       <div style={{
         flex: 1,
         padding: '10px 14px 6px',
@@ -146,24 +162,25 @@ export default function SpellCardBack({ spell }) {
         )}
       </div>
 
-      {/* ── Material (no border, just color and space) ── */}
+      {/* ── Material ── */}
       {spell.material && (
         <div style={{
           padding: '0 14px 5px',
           display: 'flex', alignItems: 'flex-start', gap: 5,
           flexShrink: 0,
         }}>
-          <span style={{ color: '#b07830', fontSize: 9, flexShrink: 0, marginTop: 1 }}>✦</span>
+          <span style={{ color: accentColor, fontSize: 9, flexShrink: 0, marginTop: 1 }}>✦</span>
           <span style={{
             fontFamily: 'EB Garamond, serif', fontSize: 9,
-            color: '#7a5020', fontStyle: 'italic', lineHeight: 1.4,
+            color: classTheme ? classTheme.accent : '#7a5020',
+            fontStyle: 'italic', lineHeight: 1.4,
           }}>
             {spell.material}
           </span>
         </div>
       )}
 
-      {/* ── Classes (no border, subtle bottom placement) ── */}
+      {/* ── Classes ── */}
       {spell.classes?.length > 0 && (
         <div style={{
           padding: '4px 8px 10px',
@@ -172,7 +189,7 @@ export default function SpellCardBack({ spell }) {
         }}>
           <span style={{
             fontFamily: 'EB Garamond, serif', fontSize: 9, fontWeight: 600,
-            color: '#9a7030', letterSpacing: '0.02em',
+            color: accentColor, letterSpacing: '0.02em',
           }}>
             ({spell.classes.join(', ')})
           </span>

@@ -29,19 +29,18 @@ const FlaskIcon = ({ size = 15 }) => (
    Card:        280 × 480 px  (prints at 70 mm × 120 mm)
    White frame: 10 px thick white border around image
    Info bar:    56 px at bottom (compact)
-   Image top:   40 px from card top
-   Image side:  0  — frame fills full card width, overflow:hidden
-                clips the card's rounded corners naturally
+   Image top:   15 px from card top
+   Image side:  0  — frame fills full card width
 ──────────────────────────────────────────────────── */
-const W        = 280
-const H        = 480
-const INFO_H   = 56   // compact info bar
-const IMG_TOP  = 26   // name banner top = IMG_TOP - 16 = 10px = same as IMG_PAD
-const IMG_PAD  = 10   // white border thickness around image
-const IMG_SIDE = 0    // full-width — no side gap
+const W              = 280
+const H              = 480
+const INFO_H         = 56
+const IMG_TOP        = 15
+const IMG_PAD        = 10
+const IMG_SIDE       = 0
+const NAME_BANNER_TOP = 8
 
-export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
-  // Track whether the current src failed to load (e.g. missing static file)
+export default function SpellCardFront({ spell, imageUrl, onImageClick, classTheme }) {
   const [srcFailed, setSrcFailed] = useState(false)
   useEffect(() => { setSrcFailed(false) }, [imageUrl])
 
@@ -58,7 +57,18 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
     { icon: <FlaskIcon />,     label: components },
   ]
 
-  const nameBannerTop = IMG_TOP - 16  // center the banner on the image-frame top edge
+  // Class theme — fall back to defaults when no theme provided
+  const infoBg     = classTheme ? classTheme.bg     : '#f7f4ef'
+  const iconColor  = classTheme ? classTheme.accent  : '#5a3820'
+  const itemColor  = classTheme ? classTheme.accent  : '#1a0a00'
+  const levelColor = classTheme ? classTheme.accent  : '#3d2210'
+  const nameBg     = classTheme ? classTheme.light   : '#ffffff'
+  const cardBorder = classTheme
+    ? `2px solid ${classTheme.accent}55`
+    : '1px solid #e8e4de'
+  const gradientBg = classTheme
+    ? `linear-gradient(to top, ${classTheme.light} 55%, transparent 100%)`
+    : 'linear-gradient(to top, rgba(255,255,255,0.96) 60%, transparent 100%)'
 
   return (
     <div
@@ -69,18 +79,24 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
         flexShrink: 0,
         borderRadius: 14,
         background: '#ffffff',
-        /* Card floats with shadow — no visible border line */
         boxShadow: '0 4px 18px rgba(0,0,0,0.16), 0 1px 4px rgba(0,0,0,0.08)',
-        /* Very faint edge for print cut guide — looks white on white paper */
-        border: '1px solid #e8e4de',
+        border: cardBorder,
         overflow: 'hidden',
       }}
     >
 
-      {/* ── Image frame ──────────────────────────────────
-          Background is white → that white gap IS the thick white border.
-          No outlines, no shadow on this element — purely the white space.
-      ─────────────────────────────────────────────── */}
+      {/* ── Top class color strip (visible when classTheme is active) ── */}
+      {classTheme && (
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0,
+          height: 4,
+          background: classTheme.accent,
+          zIndex: 6,
+        }} />
+      )}
+
+      {/* ── Image frame ── */}
       <div
         onClick={onImageClick}
         title="Click to upload artwork"
@@ -95,7 +111,6 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
           cursor: 'pointer',
         }}
       >
-        {/* Inner image — inset by IMG_PAD creates the thick white border */}
         <div style={{
           position: 'absolute',
           inset: IMG_PAD,
@@ -131,11 +146,11 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
             </div>
           )}
 
-          {/* Level / School — fades up from bottom of image, no border */}
+          {/* Level / School — fades up from bottom of image */}
           <div style={{
             position: 'absolute',
             bottom: 0, left: 0, right: 0,
-            background: 'linear-gradient(to top, rgba(255,255,255,0.96) 60%, transparent 100%)',
+            background: gradientBg,
             padding: '22px 10px 7px',
             textAlign: 'center',
           }}>
@@ -143,7 +158,7 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
               fontFamily: 'Cinzel, serif',
               fontSize: 10,
               fontWeight: 700,
-              color: '#3d2210',
+              color: levelColor,
               letterSpacing: '0.07em',
             }}>
               {levelLabel}
@@ -153,22 +168,20 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
         </div>
       </div>
 
-      {/* ── Name banner ──────────────────────────────────
-          Centered on image-top edge — upper half over white card area,
-          lower half over the image. Shadow gives it lift. No border.
-      ─────────────────────────────────────────────── */}
+      {/* ── Name banner ── */}
       <div style={{
         position: 'absolute',
-        top: nameBannerTop,
+        top: NAME_BANNER_TOP,
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 8,
-        background: '#ffffff',
+        background: nameBg,
         borderRadius: 8,
         padding: '7px 20px',
         boxShadow: '0 4px 14px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.1)',
         maxWidth: W - (IMG_SIDE * 2) - 8,
         textAlign: 'center',
+        borderBottom: classTheme ? `3px solid ${classTheme.accent}` : 'none',
       }}>
         <span style={{
           fontFamily: 'Cinzel, serif',
@@ -186,12 +199,12 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
         </span>
       </div>
 
-      {/* ── Info bar — compact, no border ── */}
+      {/* ── Info bar ── */}
       <div style={{
         position: 'absolute',
         left: 0, right: 0, bottom: 0,
         height: INFO_H,
-        background: '#f7f4ef',
+        background: infoBg,
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
         alignItems: 'center',
@@ -203,12 +216,12 @@ export default function SpellCardFront({ spell, imageUrl, onImageClick }) {
           <div key={i} style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
           }}>
-            <div style={{ color: '#5a3820', lineHeight: 0 }}>{item.icon}</div>
+            <div style={{ color: iconColor, lineHeight: 0 }}>{item.icon}</div>
             <span style={{
               fontFamily: 'EB Garamond, serif',
               fontSize: 9,
               fontWeight: 700,
-              color: '#1a0a00',
+              color: itemColor,
               textAlign: 'center',
               lineHeight: 1.2,
               wordBreak: 'break-word',

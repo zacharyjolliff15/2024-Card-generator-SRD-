@@ -102,6 +102,12 @@ button { cursor: pointer; }
     zoom: 0.945;
     box-shadow: none !important;
     transform: none !important;
+    border: none !important;
+  }
+
+  /* Remove ALL nested box-shadows — PDF renders them as solid grey rectangles */
+  .print-card * {
+    box-shadow: none !important;
   }
 
   /* No hover effects in print */
