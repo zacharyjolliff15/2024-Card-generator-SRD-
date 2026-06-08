@@ -221,6 +221,25 @@ export default function App() {
     setTempImages(prev => { const n = { ...prev }; delete n[spellIndex]; return n })
   }
 
+  async function handleSpellSave(spellIndex, updates) {
+    const res = await fetch('/api/spells/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ index: spellIndex, updates }),
+    })
+
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to save spell')
+    }
+
+    setSpells(prev => prev.map(spell => (
+      spell.index === spellIndex ? data.spell : spell
+    )))
+  }
+
+  const canEditSpells = import.meta.env.DEV
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -449,13 +468,15 @@ export default function App() {
 
         {/* Page 2 – Backs */}
         <div className="bg-white rounded-xl shadow-md p-8 border border-gray-200">
-          <PageLabel number="2" label="Backs" count={pageSpells.length} />
+          <PageLabel number="2" label={canEditSpells ? 'Backs — click Edit to update spell text' : 'Backs'} count={pageSpells.length} />
           <div className={`grid ${cols === 2 ? 'grid-cols-2' : 'grid-cols-3'} gap-6 justify-items-center`}>
             {pageSpells.map(spell => (
               <SpellCardBack
                 key={spell.index}
                 spell={spell}
                 classTheme={getSpellClassTheme(spell)}
+                editable={canEditSpells}
+                onSave={handleSpellSave}
               />
             ))}
           </div>

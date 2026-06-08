@@ -28,6 +28,120 @@ header.screen-only { display: flex; }
   transform: translateY(-2px);
 }
 
+.spell-card-description p {
+  margin: 0 0 0.45em;
+}
+
+.spell-card-description p:last-child {
+  margin-bottom: 0;
+}
+
+.spell-card-description strong {
+  font-weight: 700;
+}
+
+.spell-card-description em {
+  font-style: italic;
+}
+
+.spell-card-back {
+  transition: box-shadow 0.2s;
+}
+
+.spell-card-edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+  color: #5a3820;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.spell-card-edit-btn:hover {
+  background: #fff7ed;
+}
+
+.spell-edit-toolbar {
+  display: flex;
+  gap: 4px;
+}
+
+.spell-edit-toolbar button {
+  min-width: 24px;
+  height: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a0a00;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.spell-edit-toolbar button:hover {
+  background: #fff7ed;
+}
+
+.spell-card-edit-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px 10px;
+  flex-shrink: 0;
+}
+
+.spell-card-save-btn,
+.spell-card-cancel-btn {
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+}
+
+.spell-card-save-btn {
+  border: 1px solid #166534;
+  background: #15803d;
+  color: white;
+}
+
+.spell-card-save-btn:disabled {
+  opacity: 0.6;
+}
+
+.spell-card-cancel-btn {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: white;
+  color: #444;
+}
+
+.spell-card-save-error {
+  font-size: 9px;
+  color: #b91c1c;
+}
+
+.spell-card-saved-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: #15803d;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.spell-card-editor:focus {
+  outline: 2px solid rgba(180, 120, 48, 0.45);
+}
+
 button { cursor: pointer; }
 
 /* ════════════════════════════════════════════════════

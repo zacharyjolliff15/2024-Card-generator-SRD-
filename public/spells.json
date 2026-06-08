@@ -3,7 +3,7 @@
     "index": "acid-splash",
     "name": "Acid Splash",
     "description": [
-      "You create an acidic bubble at a point within range, where it explodes in a 5-foot-radius sphere. Each creature in that sphere must succeed on a Dexterity saving throw or take 1d6 Acid damage. Cantrip Upgrade. The damage increases by 1d6 when you reach levels 5 (2d6), 11 (3d6), and 17 (4d6)."
+      "<p>You create an acidic bubble at a point within range, where it explodes in a 5-foot-radius sphere. Each creature in that sphere must succeed on a Dexterity saving throw or take 1d6 Acid damage. <strong>Cantrip Upgrade</strong>. The damage increases by 1d6 when you reach levels 5 (2d6), 11 (3d6), and 17 (4d6).</p>"
     ],
     "range": "60 ft",
     "components": [
@@ -53,7 +53,7 @@
     "index": "aid",
     "name": "Aid",
     "description": [
-      "Level 2 Abjuration (Bard, Cleric, Druid, Paladin, Ranger) Casting Time: Action Range: 30 ft Components: V, S, M (a strip of white cloth) Duration: 8 hrs Choose up to three creatures within range. Each target's Hit Point maximum and current Hit Points increase by 5 for the duration. Using a Higher-Level Spell Slot. Each target's Hit Points increase by 5 for each spell slot level above 2."
+      "<p>Choose up to three creatures within range. Each target's Hit Point maximum and current Hit Points increase by 5 for the duration. <strong>Using a Higher-Level Spell Slot</strong>. Each target's Hit Points increase by 5 for each spell slot level above 2.</p>"
     ],
     "range": "30 ft",
     "components": [

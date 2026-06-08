@@ -1,8 +1,97 @@
 /**
+ * Escape plain text for safe HTML insertion.
+ */
+export function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+/**
  * Strip HTML tags from a string
  */
 export function stripHtml(str) {
   return str.replace(/<[^>]*>/g, '').trim()
+}
+
+/**
+ * Whether a description string contains HTML markup.
+ */
+export function isHtmlDescription(str) {
+  return /<[a-z][\s\S]*>/i.test(str || '')
+}
+
+/**
+ * Normalize contentEditable output to allowed description HTML.
+ */
+export function normalizeDescriptionHtml(html) {
+  return String(html || '')
+    .replace(/<b(\s|>)/gi, '<strong$1')
+    .replace(/<\/b>/gi, '</strong>')
+    .replace(/<i(\s|>)/gi, '<em$1')
+    .replace(/<\/i>/gi, '</em>')
+    .replace(/<div>/gi, '<p>')
+    .replace(/<\/div>/gi, '</p>')
+    .replace(/<span[^>]*>/gi, '')
+    .replace(/<\/span>/gi, '')
+    .replace(/<p>\s*<\/p>/gi, '')
+    .trim()
+}
+
+/**
+ * Keep only safe inline/block tags for spell descriptions.
+ */
+export function sanitizeDescriptionHtml(html) {
+  const allowed = new Set(['P', 'BR', 'STRONG', 'EM', 'B', 'I'])
+  const doc = new DOMParser().parseFromString(normalizeDescriptionHtml(html), 'text/html')
+  const body = doc.body
+
+  function unwrap(node) {
+    const parent = node.parentNode
+    if (!parent) return
+    while (node.firstChild) parent.insertBefore(node.firstChild, node)
+    parent.removeChild(node)
+  }
+
+  function walk(node) {
+    const children = [...node.childNodes]
+    for (const child of children) {
+      if (child.nodeType === Node.ELEMENT_NODE) {
+        if (!allowed.has(child.tagName)) {
+          unwrap(child)
+          walk(node)
+          continue
+        }
+        [...child.attributes].forEach(attr => child.removeAttribute(attr.name))
+      }
+      walk(child)
+    }
+  }
+
+  walk(body)
+  return body.innerHTML.trim()
+}
+
+/**
+ * Build display HTML from the description array.
+ */
+export function getDescriptionHtml(descArray) {
+  if (!descArray?.length) return ''
+
+  const joined = descArray.join('').trim()
+  if (isHtmlDescription(joined)) {
+    return joined
+  }
+
+  const cleaned = cleanDescription(descArray)
+  if (!cleaned) return ''
+
+  return cleaned
+    .split(/\n{2,}/)
+    .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+    .join('')
 }
 
 /**
@@ -74,24 +163,31 @@ export function formatComponents(components) {
 
 /**
  * Split description into main body and "higher levels" section (if any).
- * Returns { body: string, higherLevels: string | null }
+ * Works with plain text or HTML descriptions.
  */
 export function splitDescription(description) {
   const patterns = [
+    /(?:<p>\s*)?<strong>\s*(Using a Higher[\-\s]Level Spell Slot\.?|At Higher Levels\.?)\s*<\/strong>/i,
     /\s*(Using a Higher[\-\s]Level Spell Slot\.?|At Higher Levels\.?)/i,
+    /(?:<p>\s*)?<strong>\s*(Cantrip Upgrade\.?)\s*<\/strong>/i,
     /\s*(Cantrip Upgrade\.?)/i,
   ]
+
   for (const pattern of patterns) {
-    const idx = description.search(pattern)
-    if (idx !== -1) {
-      const match = description.match(pattern)
+    const match = description.match(pattern)
+    if (match) {
+      const idx = match.index ?? -1
+      if (idx === -1) continue
+
+      const label = match[1] || stripHtml(match[0])
       return {
         body: description.slice(0, idx).trim(),
         higherLevels: description.slice(idx).trim(),
-        higherLevelsLabel: match[1],
+        higherLevelsLabel: label,
       }
     }
   }
+
   return { body: description, higherLevels: null, higherLevelsLabel: null }
 }
 
