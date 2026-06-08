@@ -13442,6 +13442,35 @@
     "cantrip_scaling": {}
   },
   {
+    "index": "thaumaturgy",
+    "name": "Thaumaturgy",
+    "description": [
+      "<p>You manifest a minor wonder within range. You create one of the effects below within range. If you cast this spell multiple times, you can have up to three of its 1-minute effects active at a time.</p><ul><li><strong>Altered Eyes.</strong> You alter the appearance of your eyes for 1 minute.</li><li><strong>Booming Voice.</strong> Your voice booms up to three times as loud as normal for 1 minute. For the duration, you have Advantage on Charisma (Intimidation) checks.</li><li><strong>Fire Play.</strong> You cause flames to flicker, brighten, dim, or change color for 1 minute.</li><li><strong>Invisible Hand.</strong> You instantaneously cause an unlocked door or window to fly open or slam shut.</li><li><strong>Phantom Sound.</strong> You create an instantaneous sound that originates from a point of your choice within range, such as a rumble of thunder, the cry of a raven, or ominous whispers.</li><li><strong>Tremors.</strong> You cause harmless tremors in the ground for 1 minute.</li></ul>"
+    ],
+    "range": "30 ft",
+    "components": [
+      "V"
+    ],
+    "material": null,
+    "ritual": false,
+    "duration": "Up to 1 min",
+    "concentration": false,
+    "casting_time": "Action",
+    "level": 0,
+    "attack_type": null,
+    "damage": null,
+    "school": "Transmutation",
+    "classes": [
+      "Cleric"
+    ],
+    "subclasses": [],
+    "area_of_effect": null,
+    "saving_throw": null,
+    "status_effects": [],
+    "spell_list_order": 0,
+    "cantrip_scaling": {}
+  },
+  {
     "index": "thorn-whip",
     "name": "Thorn Whip",
     "description": [
