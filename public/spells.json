@@ -1633,37 +1633,6 @@
     }
   },
   {
-    "index": "celestial-spirit",
-    "name": "Celestial Spirit",
-    "description": [
-      "<p>A Large Celestial spirit appears in an unoccupied space within range. The spirit has AC 11 + the spell's level + 2 (Defender only). The spirit has 40 Hit Points plus 10 for each spell level above 5. Its Speed is 30 ft and Fly 40 ft.</p>"
-    ],
-    "range": "60 ft",
-    "components": [
-      "V",
-      "S"
-    ],
-    "material": null,
-    "ritual": false,
-    "duration": "1 min",
-    "concentration": false,
-    "casting_time": "Action",
-    "level": 5,
-    "attack_type": null,
-    "damage": null,
-    "school": "Conjuration",
-    "classes": [
-      "Cleric",
-      "Paladin"
-    ],
-    "subclasses": [],
-    "area_of_effect": null,
-    "saving_throw": null,
-    "status_effects": [],
-    "spell_list_order": 5,
-    "cantrip_scaling": {}
-  },
-  {
     "index": "chain-lightning",
     "name": "Chain Lightning",
     "description": [
@@ -4331,8 +4300,8 @@
     }
   },
   {
-    "index": "draw-mikes-instant-summons",
-    "name": "Draw Mikes Instant Summons",
+    "index": "drawmijs instant summons",
+    "name": "Drawmijs Instant Summons",
     "description": [
       "<p>You touch the sapphire used in the casting and an object weighing 10 pounds or less whose longest dimension is 6 ft or less. The spell leaves an Invisible mark on that object and invisibly inscribes the objects name on the sapphire. Each time you cast this spell, you must use a different sapphire.</p><p>Thereafter, you can take a Magic action to speak the objects name and crush the sapphire. The object instantly appears in your hand regardless of physical or planar distances, and the spell ends. If another creature is holding or carrying the object, crushing the sapphire doesn't transport it, but instead you learn who that creature is and where that creature is currently located.</p>"
     ],
@@ -4405,8 +4374,8 @@
     }
   },
   {
-    "index": "druids-raft",
-    "name": "Druid's Raft",
+    "index": "druidcraft",
+    "name": "Druidcraft",
     "description": [
       "<p>Whispering to the spirits of nature, you create one of the following effects within range.</p><ul><li><strong>Weather Sensor.</strong> You create a Tiny, harmless sensory effect that predicts what the weather will be at your location for the next 24 hrs. The effect might manifest as a golden orb for clear skies, a cloud for rain, falling snowflakes for snow, and so on. This effect persists for 1 round.</li><li><strong>Bloom.</strong> You instantly make a flower blossom, a seed pod open, or a leaf bud bloom.</li><li><strong>Sensory Effect.</strong> You create a harmless sensory effect, such as falling leaves, spectral dancing fairies, a gentle breeze, the sound of an animal, or the faint odor of skunk. The effect must fit in a 5-foot Cube.</li><li><strong>Fire Play.</strong> You light or snuff out a candle, a torch, or a campfire.</li></ul>"
     ],
@@ -4846,8 +4815,8 @@
     "cantrip_scaling": {}
   },
   {
-    "index": "evars-black-tentacles",
-    "name": "Evar's Black Tentacles",
+    "index": "evards-black-tentacles",
+    "name": "Evard's Black Tentacles",
     "description": [
       "<p>Squirming, ebony tentacles fill a 20-foot square on ground that you can see within range. For the duration, these tentacles turn the ground in that area into Difficult Terrain.</p><p>Each creature in that area makes a Strength saving throw. On a failed save, it takes 3d6 Bludgeoning damage, and it has the Restrained condition until the spell ends. A creature also makes that save if it enters the area or ends its turn there. A creature makes that save only once per turn.</p><p>A Restrained creature can take an action to make a Strength (Athletics) check against your spell save DC, ending the condition on itself on a success.</p>"
     ],
@@ -5955,8 +5924,8 @@
     "cantrip_scaling": {}
   },
   {
-    "index": "fountain-of-moonlight",
-    "name": "Fountain of Moonlight",
+    "index": "fount-of-moonlight",
+    "name": "fount of Moonlight",
     "description": [
       "<p>A cool light wreathes your body for the duration, emitting Bright Light in a 20-foot radius and Dim Light for an additional 20 ft.</p><p>Until the spell ends, you have Resistance to Radiant damage, and your melee attacks deal an extra 2d6 Radiant damage on a hit.</p><p>In addition, immediately after you take damage from a creature you can see within 60 ft of yourself, you can take a Reaction to force the creature to make a Constitution saving throw. On a failed save, the creature has the Blinded condition until the end of your next turn.</p>"
     ],
@@ -6375,8 +6344,8 @@
     }
   },
   {
-    "index": "good-berry",
-    "name": "Good Berry",
+    "index": "goodberry",
+    "name": "Goodberry",
     "description": [
       "<p>Ten berries appear in your hand and are infused with magic for the duration. A creature can take a Bonus Action to eat one berry. Eating a berry restores 1 Hit Point, and the berry provides enough nourishment to sustain a creature for one day. Uneaten berries disappear when the spell ends.</p>"
     ],
@@ -7667,8 +7636,8 @@
     }
   },
   {
-    "index": "inconceivable-cloud",
-    "name": "Inconceivable Cloud",
+    "index": "incendiary-cloud",
+    "name": "Incendiary Cloud",
     "description": [
       "<p>A swirling cloud of embers and smoke fills a 20-foot-radius Sphere centered on a point within range. The cloud's area is Heavily Obscured. It lasts for the duration or until a strong wind (like that created by Gust of Wind) disperses it.</p><p>When the cloud appears, each creature in it makes a Dexterity saving throw, taking 10d8 Fire damage on a failed save or half as much damage on a successful one. A creature must also make this save when the Sphere moves into its space and when it enters the Sphere or ends its turn there. A creature makes this save only once per turn.</p><p>The cloud moves 10 ft away from you in a direction you choose at the start of each of your turns.</p>"
     ],
@@ -7840,8 +7809,8 @@
     "cantrip_scaling": {}
   },
   {
-    "index": "jalazzis-storm-of-radiance",
-    "name": "Jalazzi's Storm of Radiance",
+    "index": "jallarzis-storm-of-radiance",
+    "name": "Jallarzi's Storm of Radiance",
     "description": [
       "<p>You unleash a storm of flashing light and raging thunder in a 10-foot-radius, 40-foot-high Cylinder centered on a point you can see within range. While in this area, creatures have the Blinded and Deafened conditions, and they can't cast spells with a verbal component.</p><p>When the storm appears, each creature in it makes a Constitution saving throw, taking 2d10 Radiant damage and 2d10 Thunder damage on a failed save or half as much damage on a successful one. A creature also makes this save when it enters the spell's area for the first time on a turn or ends its turn there. A creature makes this save only once per turn.</p>"
     ],
@@ -9616,8 +9585,8 @@
     "cantrip_scaling": {}
   },
   {
-    "index": "non-detection",
-    "name": "Non-Detection",
+    "index": "nondetection",
+    "name": "Nondetection",
     "description": [
       "<p>For the duration, you hide a target that you touch from Divination spells. The target can be a willing creature, or it can be a place or an object no larger than 10 ft in any dimension. The target can't be targeted by any Divination spell or perceived through magical scrying sensors.</p>"
     ],
@@ -12574,8 +12543,8 @@
     "cantrip_scaling": {}
   },
   {
-    "index": "stone-skin",
-    "name": "Stone Skin",
+    "index": "stoneskin",
+    "name": "Stoneskin",
     "description": [
       "<p>Until the spell ends, one willing creature you touch has Resistance to Bludgeoning, Piercing, and Slashing damage.</p>"
     ],
@@ -13217,8 +13186,8 @@
     }
   },
   {
-    "index": "telepathic-bond",
-    "name": "Telepathic Bond",
+    "index": "rarys-telepathic-bond",
+    "name": "Rary's Telepathic Bond",
     "description": [
       "<p>You forge a telepathic link among up to eight willing creatures of your choice within range, psychically linking each creature to all the others for the duration. Creatures that can't communicate in any languages aren't affected by this spell.</p><p>Until the spell ends, the targets can communicate telepathically through the bond whether or not they share a language. The communication is possible over any distance, though it can't extend to other planes of existence.</p>"
     ],
