@@ -166,3 +166,8 @@ To add or edit spells, update `public/spells.json` and restart the dev server if
 Spell content is based on the D&D System Reference Document (SRD). Artwork is your own — add images to `public/art/` under whatever license applies to your assets.
 
 This project is for personal and tabletop use. Wizards of the Coast owns the D&D trademarks and SRD content; consult the [SRD](https://dnd.wizards.com/resources/systems-reference-document) for usage terms.
+
+Image prompts to gemini pro with spell desc: 
+
+A high-quality digital fantasy illustration portrait not landscape with no words or text  of [SPELL], [DESC]. The art style is cinematic, painterly, and highly detailed, consistent with professional Dungeons & Dragons card art. The composition features a strong, dramatic focal point with intense, glowing magical energy casting vibrant light onto the surroundings. Rich, saturated colors, deep shadows, atmospheric, high-contrast, epic fantasy aesthetic, intricate textures, masterpiece, no boarders. Keep the width and height 864 × 1216
+
