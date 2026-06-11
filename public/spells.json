@@ -13085,7 +13085,7 @@
     "cantrip_scaling": {}
   },
   {
-    "index": "tashas-hIDEOUS-LAUGHTER",
+    "index": "tashas-hiedous-laughter",
     "name": "Tasha's Hideous Laughter",
     "description": [
       "<p>One creature of your choice that you can see within range makes a Wisdom saving throw. On a failed save, it has the Prone and Incapacitated conditions for the duration. During that time, it laughs uncontrollably if it's capable of laughter, and it can't end the Prone condition on itself.</p><p>At the end of each of its turns and each time it takes damage, it makes another Wisdom saving throw. The target has Advantage on the save if the save is triggered by damage. On a successful save, the spell ends.</p><p><strong>Using a Higher-Level Spell Slot.</strong> You can target one additional creature for each spell slot level above 1.</p>"
@@ -13388,58 +13388,6 @@
         "11": "3d6",
         "17": "4d6"
       }
-    }
-  },
-  {
-    "index": "thunder-wave",
-    "name": "Thunder Wave",
-    "description": [
-      "<p>Each creature in a 5-foot emanation originating from you must succeed on a Constitution saving throw or take 1d6 Thunder damage. The spell's thunderous sound can be heard up to 100 ft away.</p><p><strong>Cantrip Upgrade.</strong> The damage increases by 1d6 when you reach levels 5 (2d6), 11 (3d6), and 17 (4d6).</p>"
-    ],
-    "range": "Self",
-    "components": [
-      "S"
-    ],
-    "material": null,
-    "ritual": false,
-    "duration": "Instantaneous",
-    "concentration": false,
-    "casting_time": "Action",
-    "level": 0,
-    "attack_type": null,
-    "damage": {
-      "damage_type": "Thunder",
-      "damage_at_slot_level": {
-        "5": "2d6",
-        "11": "3d6",
-        "17": "4d6"
-      }
-    },
-    "school": "Evocation",
-    "classes": [
-      "Bard",
-      "Druid",
-      "Sorcerer",
-      "Warlock",
-      "Wizard"
-    ],
-    "subclasses": [],
-    "area_of_effect": {
-      "shape": "emanation",
-      "size": "5-foot"
-    },
-    "status_effects": [],
-    "spell_list_order": 0,
-    "cantrip_scaling": {
-      "levels": {
-        "5": "2d6",
-        "11": "3d6",
-        "17": "4d6"
-      }
-    },
-    "dc": {
-      "dc_type": "CON",
-      "dc_success": "none"
     }
   },
   {
